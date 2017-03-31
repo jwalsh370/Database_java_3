@@ -4,17 +4,29 @@ import static org.junit.Assert.*;
 
 public class StylistsTest {
 
-  @Before
-  public void setUp() {
-    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/hair_salon_test", null, null);
+  @Rule
+  public DatabaseRule database = new DatabaseRule();
+
+  @Test
+  public void stylists_instantiatesCorrectly_true() {
+    Stylist testStylist = new Stylist("Jay");
+    assertEquals(true, testStylist instanceof Stylist);
   }
 
-  @After
-  public void tearDown() {
-    try (Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM name_of_your_table *;";
-      con.createQuery(sql).executeUpdate();
-    }
+  @Test
+  public void getName_stylistsInstantiatesWithName_Jay() {
+    Stylist testStylist = new Stylist("Jay");
+    assertEquals("Jay", testStylist.getName());
+  }
+
+  @Test
+  public void all_returnsAllInstancesOfStylist_true() {
+   Stylist firstStylist = new Stylist("Jay");
+   firstStylist.save();
+   Stylist secondStylist = new Stylist("Work");
+   secondStylist.save();
+   assertEquals(true, Stylist.all().get(0).equals(firstStylist));
+   assertEquals(true, Stylist.all().get(1).equals(secondStylist));
   }
 
 }
