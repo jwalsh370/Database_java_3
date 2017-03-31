@@ -29,4 +29,28 @@ public class StylistsTest {
    assertEquals(true, Stylist.all().get(1).equals(secondStylist));
   }
 
+  @Test
+  public void getId_stylistsInstantiateWithAnId_1() {
+    Stylist testStylist = new Stylist("Jay");
+    testStylist.save();
+    assertTrue(testStylist.getId() > 0);
+  }
+
+  @Test
+  public void find_returnsStylistWithSameId_secondStylist() {
+    Stylist firstStylist = new Stylist("Jay");
+    firstStylist.save();
+    Stylist secondStylist = new Stylist("Tom");
+    secondStylist.save();
+    assertEquals(Stylist.find(secondStylist.getId()), secondStylist);
+  }
+
+   @Test
+   public void equals_returnsTrueIfNamesAretheSame() {
+     Stylist firstStylist = new Stylist("Jacob");
+     Stylist secondStylist = new Stylist("Jacob");
+     assertTrue(firstStylist.equals(secondStylist));
+   }  
+
+
 }
